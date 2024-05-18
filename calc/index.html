@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>                              
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"href="https://th.bing.com/th/id/OIP.GxvwRjRUz9gBw4cVaeK6qAHaHa?rs=1&pid=ImgDetMain"
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+        <div class="buttons">
+            <button class="span-two" onclick="clearDisplay()">C</button>
+            <button onclick="chooseOperation('/')">/</button>
+            <button onclick="chooseOperation('*')">*</button>
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="chooseOperation('-')">-</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="chooseOperation('+')">+</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button class="span-two" onclick="appendNumber('0')">0</button>
+            <button onclick="appendNumber('.')">.</button>
+            <button onclick="calculateResult()">=</button>
+        </div>
+    </div>
+    <script>
+        let display = document.getElementById('display');
+        let currentOperand = '';
+        let previousOperand = '';
+        let operation = undefined;
+
+function appendNumber(number) {
+    if (number === '.' && display.value.includes('.')) return;
+    display.value = display.value === '0' ? number : display.value + number;
+}
+
+function chooseOperation(op) {
+    if (display.value === '') return;
+    if (currentOperand !== '') {
+        calculateResult();
+    }
+    operation = op;
+    currentOperand = display.value;
+    display.value = '';
+}
+
+function calculateResult() {
+    if (operation === undefined || display.value === '') return;
+    previousOperand = display.value;
+    let computation;
+    const prev = parseFloat(currentOperand);
+    const current = parseFloat(previousOperand);
+    switch (operation) {
+        case '+':
+            computation = prev + current;
+            break;
+        case '-':
+            computation = prev - current;
+            break;
+        case '*':
+            computation = prev * current;
+            break;
+        case '/':
+            computation = prev / current;
+            break;
+        default:
+            return;
+    }
+    display.value = computation;
+    operation = undefined;
+    currentOperand = '';
+}
+
+function clearDisplay() {
+    display.value = '';
+    currentOperand = '';
+    previousOperand = '';
+    operation = undefined;
+}
+    </script>
+</body>
+</html>
+
